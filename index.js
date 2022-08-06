@@ -2,7 +2,7 @@ const { Client, GatewayIntentBits, messageLink } = require('discord.js');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
-let msgcount = 0;
+let msgcount = 1;
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -44,7 +44,14 @@ client.on("messageCreate", (msg) => {
         line = lines[Math.floor(Math.random() * lines.length)]
         msg.channel.send(line)
         console.log(line)
-        msgcount = 0
+        client.user.setPresence({ activities: [{ name: `With Yuumi's Fish` }], status: 'online' });
+        msgcount = 1
+    } 
+    if (msgcount == 75) {
+        client.user.setPresence({ activities: [{ name: `With Too Many fishy` }], status: 'dnd' });
+    } 
+    if (msgcount < 75) {
+        client.user.setPresence({ activities: [{ name: `With ${msgcount} fish` }], status: 'idle' });
     } 
     if (msg.content.toLowerCase().includes("!yuumi")){
         msg.delete()
@@ -59,8 +66,6 @@ client.on("ready", () => {
     online.setDescription(`${client.user.tag} Is Now Online`)
 
     online.setThumbnail(client.user.displayAvatarURL());
-
-    client.user.setPresence({ activities: [{ name: 'With the fishys' }], status: 'idle' });
 
     webhookClient.send({
         embeds: [online],

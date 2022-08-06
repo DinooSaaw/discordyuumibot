@@ -2,7 +2,6 @@ const { Client, GatewayIntentBits, messageLink } = require('discord.js');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
-const {keyboard, Key} = require("@nut-tree/nut-js");
 let msgcount = 0;
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });

@@ -38,16 +38,19 @@ client.on("messageCreate", (msg) => {
     }else{
         msgcount ++ ;
     }
-
+    console.log(`${msg.author.tag} || ${msg.guild.name} || ${msg.channel.name} || ${msg.content} || ${msgcount}`)
+    
     if (msgcount == 76) {
-        msg.channel.send(lines[Math.floor(Math.random() * lines.length)])
+        line = lines[Math.floor(Math.random() * lines.length)]
+        msg.channel.send(line)
+        console.log(line)
+        msgcount = 0
     } 
     if (msg.content.toLowerCase().includes("!yuumi")){
         msg.delete()
         msg.channel.send(lines[Math.floor(Math.random() * lines.length)])
     }
 
-    console.log(msgcount)
 })
 
 client.on("ready", () => {
@@ -57,7 +60,7 @@ client.on("ready", () => {
 
     online.setThumbnail(client.user.displayAvatarURL());
 
-    client.user.setActivity(`With the fishys`, { type: 'PLAYING' });
+    client.user.setPresence({ activities: [{ name: 'With the fishys' }], status: 'idle' });
 
     webhookClient.send({
         embeds: [online],

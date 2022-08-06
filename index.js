@@ -54,7 +54,7 @@ client.on("messageCreate", (msg) => {
 })
 
 client.on("ready", () => {
-    console.log("[DISCORD] Ready!");
+    console.log("Ready!");
 
     online.setDescription(`${client.user.tag} Is Now Online`)
 

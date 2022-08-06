@@ -3,6 +3,9 @@ const { EmbedBuilder, WebhookClient } = require('discord.js');
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
 let msgcount = 1;
+let blacklistedChannel = [
+    "963756774589071370"
+]
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -41,6 +44,7 @@ client.on("messageCreate", (msg) => {
     console.log(`${msg.author.tag} || ${msg.guild.name} || ${msg.channel.name} || ${msg.content} || ${msgcount}`)
     
     if (msgcount == 76) {
+        if (msg.channel.id == blacklistedChannel) return
         line = lines[Math.floor(Math.random() * lines.length)]
         msg.channel.send(line)
         console.log(line)

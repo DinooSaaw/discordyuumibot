@@ -36,7 +36,7 @@ const online = new EmbedBuilder()
 
 
 client.on("messageCreate", (msg) => {
-    if (msg.author.tag == client.user.tag){
+    if(message.author.id === client.user.id) {
         return
     }else{
         msgcount ++ ;
@@ -53,6 +53,8 @@ client.on("messageCreate", (msg) => {
     } 
     if (msgcount == 75) {
         client.user.setPresence({ activities: [{ name: `With Too Many fishy` }], status: 'dnd' });
+    } if (msgcount == 69) {
+        client.user.setPresence({ activities: [{ name: `With The ADC!` }], status: 'dnd' });
     } 
     if (msgcount < 75) {
         client.user.setPresence({ activities: [{ name: `With ${msgcount} fish` }], status: 'idle' });

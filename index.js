@@ -24,7 +24,7 @@ let lines = [
     "I save my ADC? No one notices. I take a teensy kill from the ADC? Everyone is up in my fur!",
     "The only thing standing between us and lunch is... our enemies.",
     "RAWR!!! *coughs* ...scuse me.",
-    "You smell kinda a Yordle!",
+    "You smell kinda like a Yordle!",
     "I bopped them all!",
     "Heehee! They're never gonna see us coming!"
 ]

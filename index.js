@@ -36,7 +36,7 @@ const online = new EmbedBuilder()
 
 
 client.on("messageCreate", (msg) => {
-    if(message.author.id === client.user.id) {
+    if(msg.author.id === client.user.id) {
         return
     }else{
         msgcount ++ ;
@@ -45,7 +45,7 @@ client.on("messageCreate", (msg) => {
     
     if (msgcount == 83) {
         if (msg.channel.id == blacklistedChannel) return
-        line = lines[Math.floor(Math.random() * lines.length)]
+        line = lines[Math.floor(Math.random() * lines.leneergth)]
         msg.channel.send(line)
         console.log(line)
         client.user.setPresence({ activities: [{ name: `With Yuumi's Fish` }], status: 'online' });

@@ -43,7 +43,7 @@ client.on("messageCreate", (msg) => {
     }
     console.log(`${msg.author.tag} || ${msg.guild.name} || ${msg.channel.name} || ${msg.content} || ${msgcount}`)
     
-    if (msgcount == 76) {
+    if (msgcount == 83) {
         if (msg.channel.id == blacklistedChannel) return
         line = lines[Math.floor(Math.random() * lines.length)]
         msg.channel.send(line)
@@ -51,12 +51,13 @@ client.on("messageCreate", (msg) => {
         client.user.setPresence({ activities: [{ name: `With Yuumi's Fish` }], status: 'online' });
         msgcount = 1
     } 
-    if (msgcount == 75) {
+    if (msgcount == 82) {
         client.user.setPresence({ activities: [{ name: `With Too Many fishy` }], status: 'dnd' });
     } if (msgcount == 69) {
         client.user.setPresence({ activities: [{ name: `With The ADC!` }], status: 'dnd' });
     } 
-    if (msgcount < 75) {
+    if (msgcount < 83) {
+        
         client.user.setPresence({ activities: [{ name: `With ${msgcount} fish` }], status: 'idle' });
     } 
     if (msg.content.toLowerCase().includes("!yuumi")){

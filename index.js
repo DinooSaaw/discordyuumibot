@@ -57,7 +57,7 @@ client.on("messageCreate", (msg) => {
     
     if (msgcount == 85) {
         if (msg.channel.id == blacklistedChannel) return
-        line = lines[Math.floor(Math.random() * lines.leneergth)]
+        line = lines[Math.floor(Math.random() * lines.length)]
         msg.channel.send(line)
         console.log(line)
         client.user.setPresence({ activities: [{ name: `With Yuumi's Fish` }], status: 'online' });

@@ -4,7 +4,14 @@ require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
 let msgcount = 1;
 let blacklistedChannel = [
-    "963756774589071370"
+    "963756774589071370",
+    "982636147232612373",
+    "960061411218849832",
+    "961608564995158036",
+    "961608463547531294",
+    "960051857311555614",
+    "961646820717629500",
+    "964798676910342175"
 ]
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
@@ -26,6 +33,11 @@ let lines = [
     "RAWR!!! *coughs* ...scuse me.",
     "You smell kinda like a Yordle!",
     "I bopped them all!",
+    "Cats make great companions! Just ask my master... who disappeared under mysterious circumstances.",
+    "Where to, Book? *purrs*",
+    "I am the brains, you are the brawn, Book... is Book!",
+    "Yeah, you birds can fly! Well, so can cats! This cat.",
+    "The red... dot... belongs to YOU?! VIKTOR THE MACHINE HERALD",
     "Heehee! They're never gonna see us coming!"
 ]
 const online = new EmbedBuilder()
@@ -43,7 +55,7 @@ client.on("messageCreate", (msg) => {
     }
     console.log(`${msg.author.tag} || ${msg.guild.name} || ${msg.channel.name} || ${msg.content} || ${msgcount}`)
     
-    if (msgcount == 83) {
+    if (msgcount == 85) {
         if (msg.channel.id == blacklistedChannel) return
         line = lines[Math.floor(Math.random() * lines.leneergth)]
         msg.channel.send(line)
@@ -60,7 +72,10 @@ client.on("messageCreate", (msg) => {
         
         client.user.setPresence({ activities: [{ name: `With ${msgcount} fish` }], status: 'idle' });
     } 
-    if (msg.content.toLowerCase().includes("!yuumi")){
+    if (msg.content.toLowerCase().includes("<@939436813846708234>")){
+        msg.delete()
+        msg.channel.send(lines[Math.floor(Math.random() * lines.length)])
+    }if (msg.content.toLowerCase().includes("yuumi")){
         msg.delete()
         msg.channel.send(lines[Math.floor(Math.random() * lines.length)])
     }

@@ -78,6 +78,8 @@ client.on("messageCreate", (msg) => {
     }if (msg.content.toLowerCase().includes("yuumi")){
         msg.delete()
         msg.channel.send(lines[Math.floor(Math.random() * lines.length)])
+    }if (msg.content.toLowerCase().includes("cringe") && msg.author.id == "625628543908577280"){
+        msg.channel.send("You’re an adult attempting to use adolescent slang to insult people only to be owned by fact and logic On discord of all platforms Saying “cringe” and then using slang that my generation created is like… literally counter intuitive")
     }
 
 })

@@ -84,6 +84,15 @@ client.on("messageCreate", (msg) => {
 
 })
 
+client.on('guildMemberAdd', (member) => {
+    client.users.cache.get('247163579424309268').send(`${member} Joined ${member.guild.name}`);
+})
+
+client.on('guildMemberRemove', (member) => {
+    client.users.cache.get('247163579424309268').send(`${member} Left ${member.guild.name}`);
+})
+
+
 client.on("ready", () => {
     console.log("Ready!");
 

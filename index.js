@@ -40,6 +40,12 @@ let lines = [
     "The red... dot... belongs to YOU?! VIKTOR THE MACHINE HERALD",
     "Heehee! They're never gonna see us coming!"
 ]
+
+let amongusyuumi = [
+    "https://preview.redd.it/21alfd1zrbs71.png?width=960&crop=smart&auto=webp&s=171ad473128b84d63bca6494e4324013d32eea81",
+    "https://i.redd.it/nhxpwo8l7ro51.jpg",
+    "https://i.ibb.co/8xrLWpp/unkwn.png"
+]
 const online = new EmbedBuilder()
     .setTitle('Online')
     .setColor('#82f282')
@@ -81,7 +87,7 @@ client.on("messageCreate", (msg) => {
     }if (msg.content.toLowerCase().includes("cringe") && msg.author.id == "625628543908577280"){
         msg.channel.send("You’re an adult attempting to use adolescent slang to insult people only to be owned by fact and logic On discord of all platforms Saying “cringe” and then using slang that my generation created is like… literally counter intuitive")
     }if (msg.content.toLowerCase() == "sus" || msg.content.toLowerCase() == "sussy"|| msg.content.toLowerCase() == "among us" ){
-        msg.channel.send("https://i.redd.it/nhxpwo8l7ro51.jpg")
+        msg.channel.send(amongusyuumi[Math.floor(Math.random() * amongusyuumi.length)])
     }
 
 })

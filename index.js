@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, messageLink } = require('discord.js');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
+const moment = require('moment');
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
 let msgcount = 1;
@@ -14,7 +15,7 @@ let blacklistedChannel = [
     "964798676910342175"
 ]
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
 
 let lines = [
     "You and me, we got this!",
@@ -43,6 +44,10 @@ let lines = [
 
 let amongusyuumi = [
     "https://preview.redd.it/21alfd1zrbs71.png?width=960&crop=smart&auto=webp&s=171ad473128b84d63bca6494e4324013d32eea81",
+    "https://preview.redd.it/21alfd1zrbs71.png?width=960&crop=smart&auto=webp&s=171ad473128b84d63bca6494e4324013d32eea81",
+    "https://preview.redd.it/21alfd1zrbs71.png?width=960&crop=smart&auto=webp&s=171ad473128b84d63bca6494e4324013d32eea81",
+    "https://i.redd.it/nhxpwo8l7ro51.jpg",
+    "https://i.redd.it/nhxpwo8l7ro51.jpg",
     "https://i.redd.it/nhxpwo8l7ro51.jpg",
     "https://i.ibb.co/8xrLWpp/unkwn.png"
 ]
@@ -93,7 +98,9 @@ client.on("messageCreate", (msg) => {
 })
 
 client.on('guildMemberAdd', (member) => {
-    client.users.cache.get('247163579424309268').send(`${member} Joined ${member.guild.name}`);
+    client.users.cache.get('247163579424309268').send(`${member.user.username} Joined ${member.guild.name}`);
+    if (member.guild.id === "959804940342153316")
+    client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
 })
 
 client.on('guildMemberRemove', (member) => {

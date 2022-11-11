@@ -103,8 +103,9 @@ client.on('guildMemberAdd', (member) => {
     client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
 })
 
-client.on('guildMemberRemove', (member) => {
-    client.users.cache.get('247163579424309268').send(`${member} Left ${member.guild.name}`);
+client.on('guildMemberRemove', (member) => {client.users.cache.get('247163579424309268').send(`${member.user.username} Left ${member.guild.name}`);
+if (member.guild.id === "959804940342153316")
+client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
 })
 
 
@@ -120,4 +121,19 @@ client.on("ready", () => {
     });
 });
 
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) {
+      return
+    }
+  
+    const { commandName, options } = interaction
+  
+    if (commandName === 'meow') {
+      interaction.reply({
+        content: '**Meow**',
+        ephemeral: false
+      })
+    }
+  })
+  
 client.login(process.env.token);

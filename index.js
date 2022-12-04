@@ -134,6 +134,12 @@ client.on('interactionCreate', async (interaction) => {
         ephemeral: false
       })
     }
+    if (commandName === 'yuumi') {
+      interaction.reply({
+        content: `**${lines[Math.floor(Math.random() * lines.length)]}**`,
+        ephemeral: false
+      })
+    }
   })
   
 client.login(process.env.token);

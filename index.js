@@ -140,6 +140,15 @@ client.on('interactionCreate', async (interaction) => {
         ephemeral: false
       })
     }
+
+    if (commandName === 'avatar'){
+        let skinname = interaction.options.getString('skin')
+        client.user.setAvatar(`./skins/${skinname}.jpg`)
+            interaction.reply({
+                content: `Yuumi's ${skinname} skin has been equipped`,
+                ephemeral: false
+            })
+        }
   })
   
 client.login(process.env.token);

@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, messageLink } = require('discord.js');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
+const { Configuration, OpenAIApi } = require("openai");
 const moment = require('moment');
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
@@ -14,6 +15,12 @@ let blacklistedChannel = [
     "961646820717629500",
     "964798676910342175"
 ]
+
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+
 // const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
 
@@ -51,6 +58,7 @@ let amongusyuumi = [
     "https://i.redd.it/nhxpwo8l7ro51.jpg",
     "https://i.ibb.co/8xrLWpp/unkwn.png"
 ]
+
 const online = new EmbedBuilder()
     .setTitle('Online')
     .setColor('#82f282')
@@ -103,9 +111,10 @@ client.on('guildMemberAdd', (member) => {
     client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
 })
 
-client.on('guildMemberRemove', (member) => {client.users.cache.get('247163579424309268').send(`${member.user.username} Left ${member.guild.name}`);
-if (member.guild.id === "959804940342153316")
-client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
+client.on('guildMemberRemove', (member) => {
+    client.users.cache.get('247163579424309268').send(`${member.user.username} Left ${member.guild.name}`);
+    if (member.guild.id === "959804940342153316")
+    client.users.cache.get('247163579424309268').send(`**❯ Username:** ${member.user.username} \n **❯ Discriminator:** ${member.user.discriminator} \n **❯ ID:** ${member.id} \n **❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()} \n **❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`);
 })
 
 
@@ -134,6 +143,7 @@ client.on('interactionCreate', async (interaction) => {
         ephemeral: false
       })
     }
+
     if (commandName === 'yuumi') {
       interaction.reply({
         content: `**${lines[Math.floor(Math.random() * lines.length)]}**`,
@@ -148,7 +158,28 @@ client.on('interactionCreate', async (interaction) => {
                 content: `Yuumi's ${skinname} skin has been equipped`,
                 ephemeral: false
             })
-        }
-  })
+    }
+
+    if (commandName == 'image'){
+        let prompt = interaction.options.getString('prompt')
+        let size = interaction.options.getString('size')
+        interaction.reply({
+          content: `Generating an image `,
+          ephemeral: false
+        })
+
+        const response = await openai.createImage({
+            prompt: prompt,
+            n: 1,
+            size: size,
+          });
+          let image_url = response.data.data[0].url;
+
+          interaction.channel.send(image_url)
+          interaction.client.channels.cache.get('1050410465467047957').send(`${interaction.member.user.username} created the following image \n **Prompt ->** ${prompt}`)
+          interaction.client.channels.cache.get('1050410465467047957').send(image_url)
+    }
+
+})
   
 client.login(process.env.token);

@@ -137,7 +137,7 @@ client.on('interactionCreate', async (interaction) => {
   
     const { commandName, options } = interaction
 
-    console.log(`${interaction.user.user.tag} || ${interaction.guild.name} || ${interaction.channel.name} || ${commandName}`)
+    console.log(`${interaction.user.tag} || ${interaction.guild.name} || ${interaction.channel.name} || Used: ${commandName}`)
   
     if (commandName === 'meow') {
       interaction.reply({

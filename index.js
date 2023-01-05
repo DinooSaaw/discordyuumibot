@@ -202,7 +202,7 @@ client.on('interactionCreate', async (interaction) => {
             const EMBED = new EmbedBuilder()
             EMBED.setColor(colour)
             EMBED.setTitle("Number of The Day")
-            EMBED.setURL(process.env.SHEETURL)
+            EMBED.setURL(process.env.SHEETURL+sheetdata.pos)
             // EMBED.setDescription(`test`)
               .addFields(
                 {
@@ -224,13 +224,18 @@ client.on('interactionCreate', async (interaction) => {
                   value: "\u200b",
                 },
                 {
-                  name: "Sent Date",
+                  name: "Sent Date & Time",
                   value: `${sheetdata.sentDateTime}`,
                   inline: true,
                 },
                 {
-                  name: "Response Date",
+                  name: "Response Date & Time",
                   value: `${sheetdata.responseDateTime}`,
+                  inline: true,
+                },
+                {
+                  name: "Delay",
+                  value: `${sheetdata.delay}`,
                   inline: true,
                 }
               )
@@ -274,15 +279,19 @@ async function googlesheet(interaction, date){
         )
         return "error"
     }
+    let pos = 0
     rows.forEach((row) => {
+        pos += 1
         if (row[0] == date) {
             if(row[1] == "") {
                 return sheetdata = {
                     date: row[0],
                     number: "No Data",
                     reason: "No Data",
-                    sentDateTime: "No Data",
-                    responseDateTime: "No Data"
+                    sentDateTime: "0",
+                    responseDateTime: "0",
+                    delay: "0",
+                    pos: pos
                 }
             }
             if (row[2]  == "") {
@@ -293,7 +302,9 @@ async function googlesheet(interaction, date){
                 number: row[1],
                 reason: row[2],
                 sentDateTime: row[3],
-                responseDateTime: row[4]
+                responseDateTime: row[4],
+                delay: row[5],
+                pos: pos
             }
             
         }

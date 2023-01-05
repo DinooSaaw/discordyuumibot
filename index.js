@@ -198,7 +198,7 @@ client.on('interactionCreate', async (interaction) => {
         let date = interaction.options.getString('date')
         let colour = (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')
         if(moment(date, "DD/MM/YY", true).isValid()){
-            if(await googlesheet(interaction, date) == "error") return 
+            await googlesheet(interaction, date)
             const EMBED = new EmbedBuilder()
             EMBED.setColor(colour)
             EMBED.setTitle("Number of The Day")
@@ -276,6 +276,15 @@ async function googlesheet(interaction, date){
     }
     rows.forEach((row) => {
         if (row[0] == date) {
+            if(row[1] == "") {
+                return sheetdata = {
+                    date: row[0],
+                    number: "No Data",
+                    reason: "No Data",
+                    sentDateTime: "No Data",
+                    responseDateTime: "No Data"
+                }
+            }
             if (row[2]  == "") {
                 row[2] = "Not given"
             }

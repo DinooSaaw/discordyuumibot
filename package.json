@@ -2,6 +2,7 @@
   "dependencies": {
     "discord.js": "^14.1.2",
     "dotenv": "^16.0.1",
+    "googleapis": "^110.0.0",
     "moment": "^2.29.4",
     "openai": "^3.1.0"
   },

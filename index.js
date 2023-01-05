@@ -2,6 +2,14 @@ const { Client, GatewayIntentBits, messageLink } = require('discord.js');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
 const { Configuration, OpenAIApi } = require("openai");
 const moment = require('moment');
+const {google} = require('googleapis');
+let sheetdata = {
+    date: "",
+    number: "",
+    reason: "",
+    sentDateTime: "",
+    responseDateTime: ""
+}
 require('dotenv').config()
 const webhookClient = new WebhookClient({ url: process.env.webhookurl});
 let msgcount = 1;
@@ -15,6 +23,10 @@ let blacklistedChannel = [
     "961646820717629500",
     "964798676910342175"
 ]
+const auth = new google.auth.GoogleAuth({
+    keyFile: './secret.json',
+    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+});
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -182,6 +194,101 @@ client.on('interactionCreate', async (interaction) => {
           interaction.client.channels.cache.get('1050410465467047957').send(image_url)
     }
 
+    if (commandName === 'dailynumber'){
+        let date = interaction.options.getString('date')
+        let colour = (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')
+        if(moment(date, "DD/MM/YY", true).isValid()){
+            if(await googlesheet(interaction, date) == "error") return 
+            const EMBED = new EmbedBuilder()
+            EMBED.setColor(colour)
+            EMBED.setTitle("Number of The Day")
+            EMBED.setURL(process.env.SHEETURL)
+            // EMBED.setDescription(`test`)
+              .addFields(
+                {
+                  name: "Date",
+                  value: `*${sheetdata.date}*`,
+                },
+                {
+                  name: "Number",
+                  value: `**${sheetdata.number}**`,
+                  inline: true,
+                },
+                {
+                  name: "Reason",
+                  value: `__${sheetdata.reason}__`,
+                  inline: true,
+                },
+                {
+                  name: "\u200b",
+                  value: "\u200b",
+                },
+                {
+                  name: "Sent Date",
+                  value: `${sheetdata.sentDateTime}`,
+                  inline: true,
+                },
+                {
+                  name: "Response Date",
+                  value: `${sheetdata.responseDateTime}`,
+                  inline: true,
+                }
+              )
+            EMBED.setFooter({ text: `Reqeusted by ${interaction.user.tag}`, iconURL: interaction.user.avatarURL({ dynamic:true }), })
+            EMBED.setTimestamp();
+            interaction.reply(
+                { 
+                    embeds: [EMBED],
+                    ephemeral: true
+                }
+            );
+
+        } else {
+            interaction.reply(
+                {
+                    content: "Please give date in the format of DD/MM/YY (06/02/23)",
+                    ephemeral: true
+                }
+            )
+        }
+    }
+
 })
+
+
+async function googlesheet(interaction, date){
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+        spreadsheetId: process.env.spreadsheetId,
+        range: process.env.range,
+    });
+
+    const rows = res.data.values;
+    if (!rows || rows.length === 0) {
+        console.log('No data found.');
+        interaction.reply(
+            {
+                content: "Failed to load data",
+                ephemeral: true
+            }
+        )
+        return "error"
+    }
+    rows.forEach((row) => {
+        if (row[0] == date) {
+            if (row[2]  == "") {
+                row[2] = "Not given"
+            }
+            sheetdata = {
+                date: row[0],
+                number: row[1],
+                reason: row[2],
+                sentDateTime: row[3],
+                responseDateTime: row[4]
+            }
+            
+        }
+    })
+}
   
 client.login(process.env.token);
